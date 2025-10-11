@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build with clang++ 21",
+      "type": "shell",
+      "command": "/opt/homebrew/opt/llvm/bin/clang++",
+      "args": [
+        "-std=c++2c",   // enables C++26 draft
+        "-Wall",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
