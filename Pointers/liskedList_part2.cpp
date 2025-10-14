@@ -1,4 +1,4 @@
-/* First In First Out Queue using LinkedList */
+/* First In First Out (FIFO) Queue using LinkedList */
 
 #include<iostream>
 
