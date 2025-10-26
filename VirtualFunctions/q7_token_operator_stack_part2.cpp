@@ -11,6 +11,8 @@ class Token
     public:
     virtual float getNumber()=0;
     virtual char getOperator()=0;
+
+    virtual ~Token(){};
 };
 
 
@@ -31,6 +33,8 @@ class Operator : public Token
  {
     return 0;
  }
+
+ ~Operator(){};
 
 };
 
@@ -53,6 +57,8 @@ class Number : public Token
     {
         return '\0';
     }
+
+    ~Number(){};
 
 };
 
@@ -249,5 +255,17 @@ int main()
 
  std::cout << "final result is: " << num.top()->getNumber() << std::endl;
 
+
+ // cleanup
+ while(!num.empty())
+ {
+    delete num.top(); num.pop();
+    
+ }
+
+ while(!op.empty())
+ {
+    delete op.top(); op.pop();
+ }
  return 0;
 }
