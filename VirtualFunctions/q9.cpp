@@ -1,6 +1,10 @@
 
 /*
-   Copy a linked list using pointers
+   Copy a linked list using pointers,
+   Default copy constructor (and also the default copy assignment operator) in C++ performs a shallow copy, not the default constructor itself.
+   List1 pointer and List3 pointers are copied, with default constructor , if l1 is deleted then l3 is dangling,
+   With custom copy constructor , even if l1 is deleted, l3 survives
+   
 */
 
 #include<iostream>
@@ -23,11 +27,12 @@ class List
     void display();
 
     //copy assignment
+    
     List& operator=(const List& rhs)
     {
         std::cout << "copy assignment called" << std::endl;
 
-        // check self assignment
+        // step1. check self assignment
         if(this == &rhs)
         {
             std::cout << "self assignment !" << std::endl;
@@ -35,9 +40,9 @@ class List
         }
 
        
-        
+        // step 2. delete existing nodes
         Node* c = head;
-        // delete existing nodes
+     
         while(c)
         {
             Node* temp = c;
@@ -45,13 +50,15 @@ class List
             delete temp;
         }
 
-        // created new Nodes
+        // step 3. created new Nodes
         Node* current = rhs.head;
         Node* last = nullptr;
        
         while(current!=NULL)
         {
-            
+            // deep copy, since we create a new pointer and allocate it memory, even if l1 is deleted, l3 will survive!
+            // default copy constructor uses shallow copy, if l1 is deleted, l3 crashes, its a dangling pointer!
+
             Node* ptr = new Node;
             ptr->data = current->data;
             ptr->next = nullptr;
@@ -62,7 +69,7 @@ class List
             }
             else
             {
-                // linking new nodes
+                // step 4. linking new nodes
                 last->next = ptr;
                 
             }
@@ -75,7 +82,9 @@ class List
 
         return *this;
     }
+    
 
+    
     ~List()
     {
         std::cout << "destructor called" << std::endl;
@@ -116,20 +125,26 @@ void List::display()
 // --- MAIN ---
 int main()
 {
-  List l1;
-  l1.addNode(10);
-  l1.addNode(20);
-  l1.addNode(30);
+  List* l1 = new List;
 
-  l1.display();
+  l1->addNode(10);
+  l1->addNode(20);
+  l1->addNode(30);
 
-  // copy assignment for List object
-  List l3;
-  l3 = l1;
+  l1->display();
 
-  l3.display();
+  
+  List* l3 = new List;
 
- return 0;
+  *l3 = *l1; // copy assignment invoked
+
+  delete l1;
+
+  l3->display();
+  
+  delete l3;
+
+  return 0;
 }
 
 
