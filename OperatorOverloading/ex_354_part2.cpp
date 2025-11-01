@@ -1,11 +1,13 @@
-/* timers1.cpp */
-// using operator() overloading
+/* timers3.cpp */
+// using copy assignment
 
 
 #include<iostream>
 #include<string>
 
+class time24;
 
+// -- class12 --
 class time12
 {
     bool pm;
@@ -23,19 +25,62 @@ class time12
        
         std::string am_pm = pm? "pm" : "am";
        
-        //using conditional operators 
         std::cout << (hrs<10? "0" : "")<< hrs 
                   << (mins<10? "0": "" ) << mins
                   << am_pm
                   << std::endl;
         
     }
+
+   
+    time12& operator=(const time24& rhs);
+
+    
+
 };
+
+// copy assignment
+time12& time12::operator=(const time24& rhs)
+    {
+        std::cout << "copy assignment invoked" << std::endl;
+        
+        int h24 = rhs.hours;
+        int mins24 = rhs.minutes;
+        int sec24 = rhs.seconds;
+        bool am_pm = false;
+
+        if(h24>=13 && h24<=23)
+        {
+            h24 = h24%12;
+            am_pm = true;
+
+        }
+
+        if(mins24>=60)
+        {
+            mins24-=60;
+            h24+=1;
+
+        }
+
+        if(sec24>=60)
+        {
+            sec24-=60;
+            mins24+=1;
+        }
+
+
+        // call the 3-arg constructor of time12
+        time12(am_pm, h24, mins24);
+        
+}
+
 
 
 // -- time24 --
 class time24
 {
+    friend class time12;
     int hours;
     int minutes;
     int seconds;
@@ -54,66 +99,14 @@ class time24
                   << std::endl;
 
     }
-    // time12 is a class
-    operator time12() const;
-    
+
+   
      
 };
 
 
 
-time24 :: operator time12() const
-{
-    std::cout << "operator() invoked" << std::endl;
-    std::cout << "hours: " << hours << std::endl;
-    std::cout << "minutes: " << minutes << std::endl;
-    std::cout << "seconds: " << seconds << std::endl;
 
-    int h=0, m=0;
-    bool value=false;
-
-    if(hours>=13 && hours <=23)
-    {
-        h = hours%12;
-        value = true;
-    }
-    else
-    {
-        h = hours;
-        value = false;
-    }
-
-    //midnight, so am
-    if(hours == 0)
-    {
-        value = false; 
-    }
-
-    // noon , so pm
-    if(hours == 12)
-    {
-        value = true;
-    }
-
-    if(minutes>=60)
-    {
-        m = 0;
-        h++;
-    }
-    else
-    {
-        m = minutes;
-    }
-
-    if(seconds >= 60)
-    {
-        m +=1;
-    }
-
-
-
-    return time12(value, h, m);
-}
 
 
 
@@ -140,8 +133,10 @@ int main()
 
         t24.display();
 
-        // operator time12() is invoked
-        time12 t12 = t24;
+        
+        time12 t12;
+        t12 = t24; // copy assignment call
+
         t12.display();
 
         std::cout << "enter once more? y/n: ";
