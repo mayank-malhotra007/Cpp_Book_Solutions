@@ -67,7 +67,8 @@ class Fraction
 
     }
 
-    Fraction operator/ (const Fraction& rhs)
+    // return by reference
+    Fraction& operator/ (const Fraction& rhs)
     {
         int up, down;
         if(rhs.a == 0) 
@@ -78,12 +79,12 @@ class Fraction
         }
         else
         {
-            up = a*rhs.b;
-            down = b*rhs.a;
+            a = a*rhs.b;
+            b = b*rhs.a;
         }
 
-        return Fraction(up,down);
-
+        //return Fraction(up,down);
+        return *this;
     }
 
     bool operator==(const Fraction& rhs)
