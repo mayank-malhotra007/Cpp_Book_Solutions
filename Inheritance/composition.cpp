@@ -1,5 +1,6 @@
 /*
  An example of composition, loose coupling, no inheritance
+ "Consists Of relationship"
 */
 
 #include<iostream>
@@ -26,7 +27,6 @@ class Car
         engine.start();
         std::cout << "car is running\n";
     }
-
 };
 
 int main()
