@@ -46,9 +46,10 @@ class Pstring : public String
     public:
     
     // Pstring(const char ss[]) : String( strlen(ss)>=MAXSIZE ? std::string(ss).substr(0,MAXSIZE-1).c_str() : ss ) 
+    // in lamnda one can alsp capture using [&] = capture all var by reference
     
     Pstring(const char ss[]): String (
-        [&]()
+        [this,ss]()
         {
            len = strlen(ss);
            static char temp[MAXSIZE];
