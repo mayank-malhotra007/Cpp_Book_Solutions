@@ -12,8 +12,9 @@ public:
         static T dummy{};
         if(s < 0 || s >= size)
         {
-            std::cout << "out of bounds!" << std::endl;
-            return dummy;
+            
+            throw s;
+            
         }
         return arr[s];
     }
@@ -23,10 +24,9 @@ public:
 int main()
 {
     const int SIZE = 3;
-    //Safe<int> s1;
+
     Safe<float> s1;
-    //Safe<double> s1;
-    //Safe<long> s1;
+   
     
     for(int i = 0; i < SIZE; i++)
     {
@@ -42,8 +42,16 @@ int main()
     std::cout << std::endl;
 
     // test out-of-bounds
-    s1[5] = 100;  // will print "out of bounds!" safely
+    try{
+        s1[5] = 100;  
+    }
+    catch(int& index)
+    {
+        std::cout <<"problematic index:" << index << std::endl;
+    }
+
 
     return 0;
 }
+
 
