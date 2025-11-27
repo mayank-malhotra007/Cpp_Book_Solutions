@@ -3,3 +3,10 @@
 ### Chapters
 * Pointers 
 * Virtual Functions
+* Operator Overloading
+* Smart Pointers
+* Inheritance
+* Enums
+* Standard Template Library(STL)
+* Templates & Exceptions
+* State Machine
