@@ -1,6 +1,7 @@
 
 #include<iostream>
 #include<algorithm>
+#include<vector>
 
 //int arr [] = {11,22,33};
 
